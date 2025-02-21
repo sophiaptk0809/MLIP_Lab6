@@ -13,20 +13,16 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''#!/bin/bash
-                echo 'Test Step: We run testing tool like pytest here'
+                # Create and activate virtual environment
+                python3 -m venv mlip
+                . mlip/bin/activate
 
-                # TODO fill out the path to conda here
-                # sudo /PATH/TO/CONDA init
-                sudo source mlip/bin/activate
+                # Install required packages
+                pip install pytest numpy pandas scikit-learn
 
-                # TODO Complete the command to run pytest
-                # sudo /PATH/TO/CONDA run -n <Envinronment Name> <Command you want to run>
-
-                # echo 'pytest not runned'
-                # exit 1 #comment this line after implementing Jenkinsfile
-                pytest
+                # Run pytest
+                python3 -m pytest
                 '''
-
             }
         }
         stage('Deploy') {
